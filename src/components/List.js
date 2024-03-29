@@ -13,7 +13,15 @@ export const List = ({ items, onClick }) => {
     return (
       <ul className="list">
         {items.map((item) => (
-          <ListItem key={item.id} onClick={onClick} {...item} />
+          <ListItem
+            key={item.id}
+            onClick={() => {
+              if (onClick) {
+                onClick(item);
+              }
+            }}
+            {...item}
+          />
         ))}
       </ul>
     );

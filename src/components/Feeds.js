@@ -1,38 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Card } from "./Card";
 import { List } from "./List";
 import { formatListItems } from "@/utils";
+import { useApiData } from "@/hooks";
+import { Loader } from "./Loader";
+import { Error } from "./Error";
 
-export const Feeds = () => {
-  const [feeds, setFeeds] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+export const Feeds = ({ onClick }) => {
+  const {
+    data: feeds,
+    isLoading,
+    error,
+  } = useApiData({ endpoint: "/api/users/my-slug/feeds" });
 
-  useEffect(() => {
-    setIsLoading(true);
-    setError("");
-
-    const fetchFeeds = async () => {
-      try {
-        const res = await fetch("/api/users/my-slug/feeds");
-        const data = await res.json();
-        setFeeds(data);
-      } catch (e) {
-        setError(e);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchFeeds();
-  }, []);
+  if (!feeds.length) {
+    return <Card title="Feeds">No content</Card>;
+  }
 
   return (
     <Card title="Feeds">
-      {isLoading && <span>Loading...</span>}
-      {error && <span>{error}</span>}
+      <Loader isLoading={isLoading} />
+      <Error message={error} />
       {!isLoading && !error && (
-        <List items={formatListItems({ items: feeds })} />
+        <List items={formatListItems({ items: feeds })} onClick={onClick} />
       )}
     </Card>
   );
