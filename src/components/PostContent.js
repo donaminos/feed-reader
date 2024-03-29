@@ -9,7 +9,12 @@ export const PostContent = ({ slug }) => {
     data: [post],
     isLoading,
     error,
-  } = useApiData({ endpoint: `/api/posts/${slug}` });
+  } = useApiData({
+    endpoint: `/api/posts/:slug`,
+    pathParams: {
+      slug,
+    },
+  });
 
   if (!slug || !post) {
     return <Card title="Post content">No content</Card>;

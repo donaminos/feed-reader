@@ -11,7 +11,12 @@ export const Feeds = ({ onClick }) => {
     data: feeds,
     isLoading,
     error,
-  } = useApiData({ endpoint: "/api/users/my-slug/feeds" });
+  } = useApiData({
+    endpoint: "/api/users/:slug/feeds",
+    pathParams: {
+      slug: "my-slug",
+    },
+  });
 
   if (!feeds.length) {
     return <Card title="Feeds">No content</Card>;
