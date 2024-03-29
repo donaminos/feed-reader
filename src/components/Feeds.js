@@ -6,7 +6,7 @@ import { useApiData } from "@/hooks";
 import { Loader } from "./Loader";
 import { Error } from "./Error";
 
-export const Feeds = ({ onClick }) => {
+export const Feeds = ({ onClick, onDataLoad }) => {
   const {
     data: feeds,
     isLoading,
@@ -16,6 +16,7 @@ export const Feeds = ({ onClick }) => {
     pathParams: {
       slug: "my-slug",
     },
+    onDataLoad,
   });
 
   if (!feeds.length) {

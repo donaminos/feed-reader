@@ -6,7 +6,7 @@ import { List } from "./List";
 import { Loader } from "./Loader";
 import { Error } from "./Error";
 
-export const Posts = ({ feedSlug, onClick }) => {
+export const Posts = ({ feedSlug, onClick, onDataLoad }) => {
   const {
     data: posts,
     isLoading,
@@ -16,6 +16,7 @@ export const Posts = ({ feedSlug, onClick }) => {
     pathParams: {
       slug: feedSlug,
     },
+    onDataLoad,
   });
 
   if (!feedSlug || posts.length === 0) {

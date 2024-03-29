@@ -1,18 +1,25 @@
 import { useState, useEffect, useRef } from "react";
 
-export const useApiData = ({ endpoint, pathParams }) => {
+export const useApiData = ({ endpoint, pathParams, onDataLoad }) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isReady, setIsReady] = useState(false);
   const [error, setError] = useState("");
   const abortControllerRef = useRef({});
-
+  const loaded = useRef(false);
   // Avoid mutating props
   let apiUrl = endpoint;
+  // In cas a path param has empty value and apiUrl would be wrong
+  let apiUrlError = false;
 
   // We need to compare endpoint without dynamic values
   if (pathParams) {
     Object.entries(pathParams).forEach(([key, value]) => {
       apiUrl = apiUrl.replace(`:${key}`, value);
+
+      if (!value) {
+        apiUrlError = true;
+      }
     });
   }
 
@@ -39,11 +46,21 @@ export const useApiData = ({ endpoint, pathParams }) => {
         // log error to Sentry
       } finally {
         setIsLoading(false);
+        setIsReady(true);
       }
     };
 
-    fetchApi();
-  }, [apiUrl, endpoint]);
+    if (!apiUrlError) {
+      fetchApi();
+    }
+  }, [apiUrl, endpoint, apiUrlError]);
 
-  return { data, isLoading, error };
+  useEffect(() => {
+    if (isReady && !loaded.current) {
+      loaded.current = true;
+      onDataLoad && onDataLoad(data);
+    }
+  }, [isReady, data, onDataLoad]);
+
+  return { data, isLoading, error, isReady };
 };

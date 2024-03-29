@@ -14,6 +14,14 @@ const FeedContent = ({ feedSlug }) => {
           onClick={(post) => {
             setSelectedPost(post);
           }}
+          onDataLoad={(posts) => {
+            if (posts[0]) {
+              setSelectedPost({
+                id: posts[0].slug,
+                label: posts[0].title,
+              });
+            }
+          }}
         />
       </div>
       <div className="content-col">
@@ -32,6 +40,14 @@ export const FeedReader = () => {
         <Feeds
           onClick={(feed) => {
             setSelectedFeed(feed);
+          }}
+          onDataLoad={(feeds) => {
+            if (feeds[0]) {
+              setSelectedFeed({
+                id: feeds[0].slug,
+                label: feeds[0].title,
+              });
+            }
           }}
         />
       </div>
