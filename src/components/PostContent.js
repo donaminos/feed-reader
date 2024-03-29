@@ -19,7 +19,7 @@ export const PostContent = ({ slug }) => {
     <Card title="Post content">
       <Loader isLoading={isLoading} />
       <Error message={error} />
-      <div>{post.content}</div>
+      <p>{post.content}</p>
     </Card>
   );
 };
