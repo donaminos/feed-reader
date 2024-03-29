@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { FeedReader } from "@/components/FeedReader";
 
 export default function Home() {
   return (
@@ -12,8 +13,8 @@ export default function Home() {
       <header>
         <h1>FeedReader</h1>
       </header>
-      <main className="main">
-       <p>Content...</p>
+      <main>
+       <FeedReader />
       </main>
     </>
   );
