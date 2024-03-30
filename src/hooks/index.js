@@ -1,4 +1,7 @@
 import { useState, useEffect, useRef } from "react";
+import { LRUCache } from "@/utils";
+
+const cacheStore = new LRUCache();
 
 export const useApiData = ({ endpoint, pathParams, onDataLoad }) => {
   const [data, setData] = useState([]);
@@ -38,9 +41,16 @@ export const useApiData = ({ endpoint, pathParams, onDataLoad }) => {
 
     const fetchApi = async () => {
       try {
-        const res = await fetch(apiUrl);
-        const apidata = await res.json();
-        setData(apidata);
+        // Use cache when possible
+        const chachedData = cacheStore.get(apiUrl);
+        if (chachedData) {
+          setData(chachedData);
+        } else {
+          const res = await fetch(apiUrl);
+          const apidata = await res.json();
+          cacheStore.set(apiUrl, apidata);
+          setData(apidata);
+        }
       } catch (e) {
         setError("Sorry! could not fetch data.");
         // log error to Sentry
