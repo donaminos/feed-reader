@@ -40,6 +40,19 @@ class LinkedList {
   }
 }
 
+const buildOutput = (list) => {
+  let currentNode = list.getHead();
+  let output = "";
+  while (currentNode) {
+    output = output
+      ? `${output} -> ${currentNode.data}`
+      : `${currentNode.data}`;
+
+    currentNode = currentNode.next;
+  }
+  return output;
+};
+
 export const printReverse = (input = "") => {
   // Init the linked list
   const linkedList = new LinkedList();
@@ -58,7 +71,7 @@ export const printReverse = (input = "") => {
       ? `${currentNode.data} -> ${output}`
       : `${currentNode.data}`;
 
-    reverseList.addTail(currentNode);
+    reverseList.addHead(currentNode.data);
     currentNode = currentNode.next;
   }
 
