@@ -3,7 +3,7 @@ import { LRUCache } from "@/utils";
 
 const cacheStore = new LRUCache();
 
-export const useApiData = ({ endpoint, pathParams, onDataLoad }) => {
+export const useApiData = ({ endpoint, pathParams, onDataLoad, onChange }) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isReady, setIsReady] = useState(false);
@@ -25,6 +25,12 @@ export const useApiData = ({ endpoint, pathParams, onDataLoad }) => {
       }
     });
   }
+
+  useEffect(() => {
+    if (typeof onChange === "function") {
+      onChange(data);
+    }
+  }, [data, onChange]);
 
   useEffect(() => {
     setIsLoading(true);

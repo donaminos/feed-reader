@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Posts } from "./Posts";
 import { Feeds } from "./Feeds";
 import { PostContent } from "./PostContent";
 
 const FeedContent = ({ feedSlug }) => {
-  const [selectedPost, setSelectedPost] = useState("");
+  const [selectedPostSlug, setSelectedPostSlug] = useState("");
+
+  const handleChange = useCallback((posts) => {
+    setSelectedPostSlug(posts[0]?.slug);
+  }, []);
 
   return (
     <>
@@ -12,20 +16,13 @@ const FeedContent = ({ feedSlug }) => {
         <Posts
           feedSlug={feedSlug}
           onClick={(post) => {
-            setSelectedPost(post);
+            setSelectedPostSlug(post?.id);
           }}
-          onDataLoad={(posts) => {
-            if (posts[0]) {
-              setSelectedPost({
-                id: posts[0].slug,
-                label: posts[0].title,
-              });
-            }
-          }}
+          onChange={handleChange}
         />
       </div>
       <div className="content-col">
-        <PostContent slug={selectedPost?.id} />
+        <PostContent slug={selectedPostSlug} />
       </div>
     </>
   );

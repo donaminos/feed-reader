@@ -1,6 +1,6 @@
 import React from "react";
 
-const ListItem = ({ id, label, onClick }) => {
+const ListItem = ({ label, onClick }) => {
   return (
     <li className="list-item">
       <button onClick={onClick}>{label}</button>

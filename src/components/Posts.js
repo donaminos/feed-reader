@@ -6,7 +6,7 @@ import { List } from "./List";
 import { Loader } from "./Loader";
 import { Error } from "./Error";
 
-export const Posts = ({ feedSlug, onClick, onDataLoad }) => {
+export const Posts = ({ feedSlug, onClick, onDataLoad, onChange }) => {
   const {
     data: posts,
     isLoading,
@@ -17,6 +17,7 @@ export const Posts = ({ feedSlug, onClick, onDataLoad }) => {
       slug: feedSlug,
     },
     onDataLoad,
+    onChange,
   });
 
   if (!feedSlug || posts.length === 0) {
