@@ -1,16 +1,21 @@
-class ListNode {
-  constructor(data) {
+class ListNode<T> {
+  data: T;
+  next: ListNode<T> | null;
+
+  constructor(data: T) {
     this.data = data;
     this.next = null;
   }
 }
 
-class LinkedList {
+class LinkedList<T> {
+  head: ListNode<T> | null;
+
   constructor() {
     this.head = null;
   }
 
-  addHead(data) {
+  addHead(data: T) {
     const node = new ListNode(data);
 
     if (this.head) {
@@ -21,7 +26,7 @@ class LinkedList {
     }
   }
 
-  addTail(data) {
+  addTail(data: T) {
     const node = new ListNode(data);
 
     if (this.head) {
@@ -38,7 +43,7 @@ class LinkedList {
   getHead() {
     return this.head;
   }
-  setHead(node) {
+  setHead(node: ListNode<T> | null) {
     return (this.head = node);
   }
 
@@ -57,12 +62,13 @@ class LinkedList {
   }
 }
 
-const getListFromInput = (input) => {
-  const linkedList = new LinkedList();
+const getListFromInput = (input: string): LinkedList<string> => {
+  const linkedList = new LinkedList<string>();
   const arr = input.split("->").map((item) => item.trim());
   arr.forEach((item) => {
     linkedList.addTail(item);
   });
+
   return linkedList;
 };
 
@@ -80,14 +86,14 @@ const getListFromInput = (input) => {
  *      - Space complexity: O(n)
  */
 
-export const printReverse = (input = "") => {
+export const printReverse = (input = ""): string => {
   // Init the linked list
   const linkedList = getListFromInput(input);
 
   // Reverse
   let output = "";
   // This list is not needed.(learning purpose only)
-  const reverseList = new LinkedList();
+  const reverseList = new LinkedList<string>();
   let currentNode = linkedList.getHead();
   while (currentNode) {
     output = output
@@ -116,11 +122,11 @@ export const printReverse = (input = "") => {
  *    - Time complexity: O(n)
  *    - Space complexity: O(1)
  */
-export const reverseList = (input) => {
+export const reverseList = (input: string) => {
   const linkedList = getListFromInput(input);
 
   let currentNode = linkedList.getHead();
-  let previousNode = null;
+  let previousNode: ListNode<string> | null = null;
   while (currentNode) {
     const nextNode = currentNode.next;
     currentNode.next = previousNode;
@@ -145,19 +151,23 @@ export const reverseList = (input) => {
  *    - Time complexity: O(n)
  *    - Space complexity: O(n)
  */
-const reverse = (head, prev = null) => {
+
+const reverse = (
+  head: ListNode<string> | null,
+  prev: ListNode<string> | null = null
+): ListNode<string> | null => {
   if (!head) {
     return prev;
   }
 
-  const newHead = head.next;
+  const newHead: ListNode<string> | null = head.next;
   head.next = prev;
   const newPrev = head;
 
   return reverse(newHead, newPrev);
 };
 
-export const reverseListRecursivly = (input) => {
+export const reverseListRecursivly = (input: string): string => {
   const linkedList = getListFromInput(input);
   const head = linkedList.getHead();
 

@@ -1,10 +1,13 @@
-class TreeNode {
-  constructor(value) {
+class TreeNode<T> {
+  value: T;
+  children: Array<TreeNode<T>>;
+
+  constructor(value: T) {
     this.value = value;
     this.children = [];
   }
 
-  add(node) {
+  add(node: TreeNode<T>) {
     this.children.push(node);
   }
 }
@@ -43,16 +46,20 @@ const initTree = () => {
  * We have an intermediary array nextLine that holds all children of a line => Space comlexity is O(n)
  * Eventually time complexity and space complexity are O(n)
  */
-const printBreadthFirstTraversal = (nodes) => {
+const printBreadthFirstTraversal = (
+  nodes: TreeNode<string> | Array<TreeNode<string>>
+) => {
   // The root node is not an array as chidlren
   if (!Array.isArray(nodes)) {
     printBreadthFirstTraversal([nodes]);
   }
 
+  const n = nodes as Array<TreeNode<string>>;
+
   let line = "";
   let nextLine = [];
-  if (nodes.length) {
-    for (current of nodes) {
+  if (n.length) {
+    for (const current of n) {
       line = line ? `${line} - ${current.value}` : current.value;
       nextLine.push(...current.children);
     }
@@ -67,7 +74,7 @@ const printBreadthFirstTraversal = (nodes) => {
  * We have a recursive call for each node => Space comlexity is O(n)
  * Eventually time complexity and space complexity are O(n)
  */
-const printDepthFirstTraversal = (node) => {
+const printDepthFirstTraversal = (node: TreeNode<string>) => {
   console.log(node.value);
 
   if (node.children.length) {
